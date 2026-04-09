@@ -111,7 +111,7 @@ export default function ParallaxScene() {
             pointerEvents: "none",
           }}
         >
-          <div className="pointer-events-auto w-full max-w-3xl px-4">
+          <div className="pointer-events-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <HeroSection />
           </div>
         </ParallaxLayer>

@@ -1,12 +1,43 @@
 // @ts-nocheck
 /* eslint-disable */
 "use client";
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-useGLTF.preload("/3Dmodel.glb");
+// Preload with Draco decoder (uses Google CDN decoder, cached after first load)
+useGLTF.preload("/3Dmodel-draco.glb", true);
+
+/**
+ * Pulsing wireframe sphere shown while the GLB is loading.
+ * Matches the green hologram aesthetic so the transition feels seamless.
+ */
+function HologramLoader() {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (!meshRef.current) return;
+    const t = clock.elapsedTime;
+    meshRef.current.rotation.y += 0.01;
+    meshRef.current.rotation.x = Math.sin(t * 0.5) * 0.3;
+    // Pulsing opacity
+    (meshRef.current.material as THREE.MeshBasicMaterial).opacity =
+      0.3 + Math.sin(t * 2) * 0.2;
+  });
+
+  return (
+    <mesh ref={meshRef}>
+      <sphereGeometry args={[1.2, 12, 8]} />
+      <meshBasicMaterial
+        color="#00ff88"
+        wireframe
+        transparent
+        opacity={0.4}
+      />
+    </mesh>
+  );
+}
 
 /**
  * Green hologram figure.
@@ -14,7 +45,8 @@ useGLTF.preload("/3Dmodel.glb");
  */
 function HologramFigure() {
   const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/3Dmodel.glb");
+  // Second arg `true` enables DRACOLoader (Google CDN decoder, ~150KB, cached)
+  const { scene } = useGLTF("/3Dmodel-draco.glb", true);
 
   // Clone once + apply green hologram material
   const holoScene = useMemo(() => {
@@ -98,7 +130,10 @@ export default function Model3D() {
         <directionalLight color="#00cc6a" intensity={1.2} position={[-3, 1, 3]} />
         <pointLight color="#00ff88" intensity={3} distance={12} decay={2} position={[0, 3, -4]} />
 
-        <HologramFigure />
+        {/* Suspense inside Canvas — shows animated wireframe sphere while GLB loads */}
+        <Suspense fallback={<HologramLoader />}>
+          <HologramFigure />
+        </Suspense>
 
         <OrbitControls
           enableZoom={false}

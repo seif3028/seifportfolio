@@ -130,7 +130,7 @@ export default function HeroSection() {
       {/* On mobile: full-width, moderate height, appears above text via order
           On desktop: fixed-width right column, tall enough to be impressive */}
       <motion.div
-        className="order-first md:order-last w-full max-w-[360px] sm:max-w-[420px] md:w-[480px] lg:w-[580px] xl:w-[660px] h-64 sm:h-80 md:h-[520px] lg:h-[620px] xl:h-[700px] mx-auto md:mx-0 flex-shrink-0"
+        className="order-first md:order-last w-full max-w-[420px] sm:max-w-[500px] md:w-[560px] lg:w-[680px] xl:w-[780px] h-80 sm:h-96 md:h-[600px] lg:h-[720px] xl:h-[820px] mx-auto md:mx-0 flex-shrink-0"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.1 }}

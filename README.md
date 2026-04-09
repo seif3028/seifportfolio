@@ -29,6 +29,34 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Deployment
+
+### Production Domain
+
+This portfolio is deployed to: **https://seifbaichoo.com**
+
+The domain is:
+- Managed via **Cloudflare**
+- Configured with **Caddy** reverse proxy
+- Protected with **Let's Encrypt SSL/TLS** (auto-renewing)
+- Hosted on server: `178.105.1.221`
+
+### CI/CD Pipeline
+
+The project uses GitHub Actions for automated testing and deployment:
+
+- **test.yml** - Runs on develop branch: ESLint → Jest tests → Build verification
+- **deploy.yml** - Runs on master branch: All tests → Build → Deploy to server → Verify services
+
+### Server Setup
+
+The server runs:
+- **Caddy** - Reverse proxy on ports 80/443 with automatic SSL
+- **Next.js app** - Running on port 3000 via systemd service
+- **Systemd services**: `seifportfolio` (Node.js) and Caddy (reverse proxy)
+
+See `infrastructure/Caddyfile` for reverse proxy configuration.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

@@ -23,16 +23,17 @@ export default function GlowButton({
   target,
   rel,
 }: GlowButtonProps) {
+  // min-h-[44px] ensures the touch target meets the 44×44px WCAG minimum on mobile
   const base =
-    "inline-flex items-center gap-2 px-5 py-2.5 rounded font-mono text-xs tracking-wide transition-all duration-300 cursor-pointer";
+    "inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded font-mono text-xs tracking-wide transition-all duration-300 cursor-pointer";
 
   const variants = {
     primary:
-      "bg-neon-green/10 text-neon-green border border-neon-green/40 hover:bg-neon-green/20 hover:border-neon-green shadow-[0_0_15px_rgba(0,255,136,0.15)] hover:shadow-[0_0_25px_rgba(0,255,136,0.35)]",
+      "bg-neon-green/10 text-neon-green border border-neon-green/40 hover:bg-neon-green/20 hover:border-neon-green active:bg-neon-green/30 shadow-[0_0_15px_rgba(0,255,136,0.15)] hover:shadow-[0_0_25px_rgba(0,255,136,0.35)]",
     outline:
-      "border border-neon-green/20 text-neon-green/80 hover:border-neon-green/50 hover:text-neon-green hover:bg-neon-green/5 hover:shadow-[0_0_15px_rgba(0,255,136,0.1)]",
+      "border border-neon-green/20 text-neon-green/80 hover:border-neon-green/50 hover:text-neon-green hover:bg-neon-green/5 active:bg-neon-green/10 hover:shadow-[0_0_15px_rgba(0,255,136,0.1)]",
     ghost:
-      "text-terminal-dim hover:text-neon-green hover:bg-neon-green/5 border border-transparent hover:border-neon-green/20",
+      "text-terminal-dim hover:text-neon-green hover:bg-neon-green/5 active:bg-neon-green/10 border border-transparent hover:border-neon-green/20",
   };
 
   const classes = `${base} ${variants[variant]} ${className}`;

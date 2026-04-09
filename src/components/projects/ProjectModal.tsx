@@ -76,7 +76,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto
+              className="relative w-full max-w-2xl max-h-[85dvh] overflow-y-auto
                 bg-hacker-card border border-neon-green/20 rounded-xl
                 shadow-[0_0_40px_rgba(0,255,136,0.06)] font-mono"
               onClick={(e) => e.stopPropagation()}
@@ -93,9 +93,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     {project.category}
                   </span>
                 </div>
+                {/* min 44×44px touch target */}
                 <button
                   onClick={onClose}
-                  className="text-terminal-dim hover:text-neon-green transition-colors p-1 rounded-lg hover:bg-neon-green/5"
+                  className="text-terminal-dim hover:text-neon-green active:text-neon-green transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-neon-green/5 active:bg-neon-green/10"
                   aria-label="Close"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

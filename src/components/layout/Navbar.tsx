@@ -92,9 +92,9 @@ export default function Navbar() {
           </motion.a>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — min 44×44px touch target per WCAG */}
         <button
-          className="md:hidden text-neon-green/70 hover:text-neon-green p-2"
+          className="md:hidden text-neon-green/70 hover:text-neon-green active:text-neon-green min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg active:bg-neon-green/10 transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >

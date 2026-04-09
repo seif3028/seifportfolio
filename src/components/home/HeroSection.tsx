@@ -127,15 +127,39 @@ export default function HeroSection() {
       </div>
 
       {/* ── 3D Model column ─────────────────────────────────────────── */}
-      {/* On mobile: full-width, moderate height, appears above text via order
-          On desktop: fixed-width right column, tall enough to be impressive */}
+      {/*
+        HOW TO ADJUST THE MODEL SIZE:
+        Change the clamp() values below — they control the layout space.
+          clamp(MIN, PREFERRED, MAX)
+          e.g. clamp(260px, 38vw, 520px) = min 260px, scales with viewport, max 520px
+
+        The canvas itself is rendered 35% larger than this box on every side
+        (via inset: -35%) so the model never clips when rotating.
+        The transparent background means only the glowing model is visible —
+        no box, no frame, no cuts.
+      */}
       <motion.div
-        className="order-first md:order-last w-full max-w-[420px] sm:max-w-[500px] md:w-[560px] lg:w-[680px] xl:w-[780px] h-80 sm:h-96 md:h-[600px] lg:h-[720px] xl:h-[820px] mx-auto md:mx-0 flex-shrink-0"
+        className="order-first md:order-last flex-shrink-0 relative mx-auto md:mx-0"
+        style={{
+          width:  "clamp(260px, 38vw, 520px)",
+          height: "clamp(260px, 42vw, 580px)",
+        }}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.1 }}
       >
-        <Model3D />
+        {/*
+          Canvas overflows the layout anchor by 35% on every side.
+          This gives the model a 70% larger render area so no part
+          ever gets clipped during rotation — while the flex layout
+          still uses the smaller anchor size for spacing.
+        */}
+        <div
+          className="absolute pointer-events-auto"
+          style={{ inset: "-35%" }}
+        >
+          <Model3D />
+        </div>
       </motion.div>
 
     </div>

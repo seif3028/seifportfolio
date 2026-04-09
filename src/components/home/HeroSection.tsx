@@ -21,7 +21,7 @@ export default function HeroSection() {
      * Mobile  : single column — model on top, text below, everything centred
      * Desktop : two columns — text left, 3D model right (large)
      */
-    <div className="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-10 lg:gap-16 w-full">
+    <div className="relative flex flex-col md:flex-row md:items-center gap-0 md:gap-16 lg:gap-24 w-full">
 
       {/* ── Text column — z-10 keeps text above the 3D model canvas ── */}
       <div className="relative z-10 flex flex-col items-center text-center md:items-start md:text-left flex-1 min-w-0">
@@ -139,7 +139,7 @@ export default function HeroSection() {
         no box, no frame, no cuts.
       */}
       <motion.div
-        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-16 md:mb-0"
+        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-3 md:mb-0"
         style={{
           width:  "clamp(200px, 30vw, 380px)",
           height: "clamp(200px, 33vw, 420px)",

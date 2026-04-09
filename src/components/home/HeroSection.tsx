@@ -139,7 +139,7 @@ export default function HeroSection() {
         no box, no frame, no cuts.
       */}
       <motion.div
-        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-4 md:mb-0"
+        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-10 md:mb-0"
         style={{
           width:  "clamp(150px, 22vw, 300px)",
           height: "clamp(150px, 24vw, 340px)",
@@ -155,7 +155,7 @@ export default function HeroSection() {
         */}
         <div
           className="absolute pointer-events-auto"
-          style={{ top: 0, bottom: "-40%", left: "-40%", right: "-40%" }}
+          style={{ top: 0, bottom: 0, left: "-40%", right: "-40%" }}
         >
           <Model3D />
         </div>

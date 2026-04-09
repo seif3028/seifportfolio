@@ -1,10 +1,11 @@
 seifbaichoo.com www.seifbaichoo.com {
-  # Automatically handles HTTP → HTTPS redirect
-  # Caddy automatically obtains and renews Let's Encrypt certificate
-
-  # Enable gzip compression for better performance
+  # Production - auto HTTPS, HTTP → HTTPS redirect
   encode gzip
-
-  # Reverse proxy to Next.js app running on localhost:3000
   reverse_proxy localhost:3000
+}
+
+test.seifbaichoo.com {
+  # Staging - auto HTTPS, HTTP → HTTPS redirect
+  encode gzip
+  reverse_proxy localhost:3001
 }

@@ -141,8 +141,8 @@ export default function HeroSection() {
       <motion.div
         className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-10 md:mb-0"
         style={{
-          width:  "clamp(150px, 22vw, 300px)",
-          height: "clamp(150px, 24vw, 340px)",
+          width:  "clamp(260px, 40vw, 500px)",
+          height: "clamp(260px, 44vw, 560px)",
         }}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

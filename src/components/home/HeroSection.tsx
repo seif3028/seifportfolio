@@ -139,7 +139,7 @@ export default function HeroSection() {
         no box, no frame, no cuts.
       */}
       <motion.div
-        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0"
+        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-4 md:mb-0"
         style={{
           width:  "clamp(150px, 22vw, 300px)",
           height: "clamp(150px, 24vw, 340px)",
@@ -149,14 +149,13 @@ export default function HeroSection() {
         transition={{ duration: 0.8, delay: 0.1 }}
       >
         {/*
-          Canvas overflows the layout anchor by 35% on every side.
-          This gives the model a 70% larger render area so no part
-          ever gets clipped during rotation — while the flex layout
-          still uses the smaller anchor size for spacing.
+          Canvas overflows the layout anchor on the sides and bottom only —
+          NOT upward (top: 0) so it never bleeds into the navbar on mobile.
+          Left/right/bottom get 40% extra space for full rotation without clips.
         */}
         <div
           className="absolute pointer-events-auto"
-          style={{ inset: "-35%" }}
+          style={{ top: 0, bottom: "-40%", left: "-40%", right: "-40%" }}
         >
           <Model3D />
         </div>

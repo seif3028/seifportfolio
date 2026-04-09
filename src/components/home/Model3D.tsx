@@ -129,13 +129,19 @@ function HologramFigure() {
 
 export default function Model3D() {
   return (
-    <div className="w-full h-full">
+    // background: transparent on the wrapper is critical — some Android browsers
+    // default to white unless every layer in the chain is explicitly transparent
+    <div className="w-full h-full" style={{ background: "transparent" }}>
       <Canvas
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 4], fov: 50 }}
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", display: "block" }}
         // Cap at 1.5× — rendering at dpr=2 doubles pixel count and tanks GPU on mid-range phones
         dpr={[1, 1.5]}
+        onCreated={({ gl }) => {
+          // Force truly transparent clear colour — needed on some mobile WebGL implementations
+          gl.setClearColor(0x000000, 0);
+        }}
       >
         <ambientLight color="#00ff88" intensity={0.8} />
         <directionalLight color="#00ff88" intensity={3} position={[3, 3, 5]} />

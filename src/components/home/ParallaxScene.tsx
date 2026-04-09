@@ -5,8 +5,6 @@ import { motion } from "framer-motion";
 import GlowButton from "@/components/ui/GlowButton";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
 
-const Model3D = dynamic(() => import("./Model3D"), { ssr: false });
-
 function IntroBlurb() {
   return (
     <div className="h-screen flex items-center justify-center px-4">

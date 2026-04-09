@@ -64,7 +64,9 @@ const skillGroups = [
 const containerVariants: Variants = {
   initial: {},
   animate: {
-    transition: { staggerChildren: 0.06, delayChildren: 0.15 },
+    // Reduced stagger (0.03s) so all skills animate in quickly rather than
+    // the last one appearing 1.35s after the first — felt sluggish on scroll
+    transition: { staggerChildren: 0.03, delayChildren: 0.05 },
   },
 };
 

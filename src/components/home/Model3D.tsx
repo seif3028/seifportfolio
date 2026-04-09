@@ -42,14 +42,23 @@ function HologramLoader() {
 /**
  * Green hologram figure.
  * Auto-rotates slowly; user can drag to rotate via OrbitControls.
+ * Respects prefers-reduced-motion for users sensitive to vestibular motion.
  */
 function HologramFigure() {
   const group = useRef<THREE.Group>(null);
-  // Second arg `true` enables DRACOLoader (Google CDN decoder, ~150KB, cached)
   const { scene } = useGLTF("/3Dmodel-draco.glb", true);
 
-  // Clone once + apply green hologram material
-  const holoScene = useMemo(() => {
+  // Check once on mount whether the user prefers reduced motion
+  const prefersReducedMotion = useMemo(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    []
+  );
+
+  // Clone once + apply green hologram material.
+  // Also cache the mesh list so we avoid traversing the scene graph every frame.
+  const { holoScene, meshes } = useMemo(() => {
     const clone = scene.clone(true);
     const mat = new THREE.MeshStandardMaterial({
       color: new THREE.Color("#00ff88"),
@@ -62,10 +71,14 @@ function HologramFigure() {
       side: THREE.DoubleSide,
       depthWrite: false,
     });
+    const meshList: THREE.Mesh[] = [];
     clone.traverse((child: any) => {
-      if (child.isMesh) child.material = mat;
+      if (child.isMesh) {
+        child.material = mat;
+        meshList.push(child);
+      }
     });
-    return clone;
+    return { holoScene: clone, meshes: meshList };
   }, [scene]);
 
   // Auto-fit model to ~2.8 units
@@ -85,7 +98,7 @@ function HologramFigure() {
   }, [holoScene]);
 
   useFrame(({ clock }) => {
-    if (!group.current) return;
+    if (!group.current || prefersReducedMotion) return;
     const t = clock.elapsedTime;
 
     // Slow auto-rotate
@@ -98,15 +111,13 @@ function HologramFigure() {
     group.current.position.y =
       (group.current as any).__baseY + Math.sin(t * 0.6) * 0.1;
 
-    // Opacity flicker for hologram feel
-    holoScene.traverse((child: any) => {
-      if (child.isMesh) {
-        child.material.opacity =
-          0.85 + Math.sin(t * 6) * 0.05 + Math.sin(t * 13) * 0.03;
-        child.material.emissiveIntensity =
-          1.8 + Math.sin(t * 3) * 0.4;
-      }
-    });
+    // Opacity flicker — use cached mesh list instead of traversing every frame
+    const opacity = 0.85 + Math.sin(t * 6) * 0.05 + Math.sin(t * 13) * 0.03;
+    const emissive = 1.8 + Math.sin(t * 3) * 0.4;
+    for (const mesh of meshes) {
+      (mesh.material as THREE.MeshStandardMaterial).opacity = opacity;
+      (mesh.material as THREE.MeshStandardMaterial).emissiveIntensity = emissive;
+    }
   });
 
   return (
@@ -123,7 +134,8 @@ export default function Model3D() {
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 4], fov: 50 }}
         style={{ background: "transparent" }}
-        dpr={[1, 2]}
+        // Cap at 1.5× — rendering at dpr=2 doubles pixel count and tanks GPU on mid-range phones
+        dpr={[1, 1.5]}
       >
         <ambientLight color="#00ff88" intensity={0.8} />
         <directionalLight color="#00ff88" intensity={3} position={[3, 3, 5]} />

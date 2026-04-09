@@ -51,7 +51,7 @@ export default function HeroSection() {
         {roles.map((role) => (
           <span
             key={role}
-            className="text-[10px] sm:text-[11px] px-2 sm:px-3 py-1 rounded border border-neon-green/15 bg-neon-green/5 text-neon-green/70 font-mono"
+            className="text-[11px] sm:text-xs px-2 sm:px-3 py-1 rounded border border-neon-green/15 bg-neon-green/5 text-neon-green/70 font-mono"
           >
             {role}
           </span>
@@ -107,7 +107,7 @@ export default function HeroSection() {
             <div className="text-base sm:text-lg font-bold text-neon-green font-mono">
               {stat.value}
             </div>
-            <div className="text-[9px] sm:text-[10px] text-terminal-muted mt-0.5 font-mono">
+            <div className="text-[10px] sm:text-[11px] text-terminal-muted mt-0.5 font-mono">
               {stat.label}
             </div>
           </div>

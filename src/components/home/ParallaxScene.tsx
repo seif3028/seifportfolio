@@ -1,6 +1,5 @@
 "use client";
 import { Parallax, ParallaxLayer } from "@react-spring/parallax";
-import dynamic from "next/dynamic";
 import HeroSection from "./HeroSection";
 import { motion } from "framer-motion";
 import GlowButton from "@/components/ui/GlowButton";
@@ -101,38 +100,15 @@ export default function ParallaxScene() {
           </div>
         </ParallaxLayer>
 
-        {/* 3D Model — sits in its own area, no overlap with text */}
+        {/* Hero — model + text stacked, centred in the viewport */}
         <ParallaxLayer
           offset={0}
           speed={0.3}
           style={{
-            pointerEvents: "auto",
-            zIndex: 5,
             display: "flex",
-            alignItems: "flex-end",
+            alignItems: "center",
             justifyContent: "center",
-          }}
-        >
-          {/* Fluid container: grows with viewport, max-capped */}
-          <div
-            style={{
-              width: "clamp(250px, 50vw, 700px)",
-              height: "clamp(200px, 40vh, 500px)",
-            }}
-          >
-            <Model3D />
-          </div>
-        </ParallaxLayer>
-
-        {/* Hero text — top portion, never overlapping the model */}
-        <ParallaxLayer
-          offset={0}
-          speed={0.7}
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            paddingTop: "clamp(80px, 10vh, 140px)",
+            paddingTop: "64px", /* clear the fixed navbar */
             zIndex: 10,
             pointerEvents: "none",
           }}

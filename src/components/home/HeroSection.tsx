@@ -1,7 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useTypingEffect } from "@/hooks/useTypingEffect";
 import GlowButton from "@/components/ui/GlowButton";
+
+const Model3D = dynamic(() => import("./Model3D"), { ssr: false });
 
 const roles = [
   "cybersecurity_student",
@@ -15,6 +18,11 @@ export default function HeroSection() {
 
   return (
     <div className="relative flex flex-col items-center text-center">
+      {/* 3D hologram model */}
+      <div className="w-full max-w-[260px] sm:max-w-xs md:max-w-sm h-44 sm:h-52 md:h-60 mx-auto mb-2">
+        <Model3D />
+      </div>
+
       {/* Terminal status line */}
       <motion.div
         className="inline-flex items-center gap-2 px-4 py-1.5 rounded border border-neon-green/20 bg-neon-green/5 text-neon-green text-xs font-mono mb-4"

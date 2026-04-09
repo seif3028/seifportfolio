@@ -81,14 +81,14 @@ function HologramFigure() {
     return { holoScene: clone, meshes: meshList };
   }, [scene]);
 
-  // Auto-fit model to ~2.8 units
+  // Auto-fit model to ~2.4 units (adjust this number to change model size)
   useEffect(() => {
     if (!group.current) return;
     const box = new THREE.Box3().setFromObject(holoScene);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = maxDim > 0 ? 2.8 / maxDim : 1;
+    const scale = maxDim > 0 ? 2.4 / maxDim : 1;
     group.current.scale.setScalar(scale);
     group.current.position.set(
       -center.x * scale,

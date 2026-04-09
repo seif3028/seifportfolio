@@ -85,7 +85,7 @@ function CTASection() {
 
 export default function ParallaxScene() {
   return (
-    {/* 100dvh uses the dynamic viewport height that accounts for mobile browser chrome (address bar) */}
+    // 100dvh uses the dynamic viewport height that accounts for mobile browser chrome (address bar)
     <div className="relative w-full" style={{ height: "100dvh", minHeight: "-webkit-fill-available" }}>
       <Parallax pages={3} style={{ background: "transparent" }}>
         {/* Background grid — slowest */}

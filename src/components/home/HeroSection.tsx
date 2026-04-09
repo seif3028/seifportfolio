@@ -139,10 +139,10 @@ export default function HeroSection() {
         no box, no frame, no cuts.
       */}
       <motion.div
-        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-10 md:mb-0"
+        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-16 md:mb-0"
         style={{
-          width:  "clamp(260px, 40vw, 500px)",
-          height: "clamp(260px, 44vw, 560px)",
+          width:  "clamp(200px, 30vw, 380px)",
+          height: "clamp(200px, 33vw, 420px)",
         }}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -1,0 +1,86 @@
+name: Build & Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test -- --coverage --passWithNoTests
+
+      - name: Build project
+        run: npm run build
+
+      - name: Setup SSH known hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Setup SSH key
+        run: |
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deploy_package
+          cp -r .next deploy_package/
+          cp package.json deploy_package/
+          cp package-lock.json deploy_package/
+          cp next.config.mjs deploy_package/
+          cp -r public deploy_package/
+          cp -r src deploy_package/
+          cp tsconfig.json deploy_package/
+          cp tailwind.config.ts deploy_package/
+          cp postcss.config.mjs deploy_package/
+
+      - name: Upload files to server
+        run: |
+          scp -i ~/.ssh/deploy_key -r deploy_package/* \
+            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/var/www/portfolio/
+
+      - name: Install production dependencies and restart service
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} << 'EOF'
+          cd /var/www/portfolio
+          npm install --production
+          sudo systemctl restart seifportfolio
+          EOF
+
+      - name: Verify deployment
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} << 'EOF'
+          sleep 2
+          systemctl status seifportfolio
+          EOF
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf deploy_package
+          rm -f ~/.ssh/deploy_key

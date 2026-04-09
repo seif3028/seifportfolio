@@ -117,7 +117,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 {/* All tags */}
                 <div className="mb-6">
                   <h4 className="text-[10px] uppercase tracking-widest text-terminal-dim mb-3 font-mono">
-                    <span className="text-neon-green/40">// </span>Technologies
+                    <span className="text-neon-green/40">{"// "}</span>Technologies
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (

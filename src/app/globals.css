@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050505;
+  --bg-card: #0a0f0a;
+  --neon: #00ff88;
+  --neon-dim: #00cc6a;
+  --neon-dark: #00994d;
+  --neon-glow: rgba(0, 255, 136, 0.35);
+  --text-primary: #e0ffe0;
+  --text-muted: #5a8a5a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #050505;
+  color: #e0ffe0;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #00ff88; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #39ff14; }
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(0, 255, 136, 0.3);
+  color: #fff;
+}
+
+/* ─── Scanline overlay for the whole page ─── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 136, 0.015) 2px,
+    rgba(0, 255, 136, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@layer utilities {
+  /* ─── Neon text glow ─── */
+  .text-neon {
+    color: #00ff88;
+    text-shadow: 0 0 7px rgba(0, 255, 136, 0.7), 0 0 20px rgba(0, 255, 136, 0.4);
+  }
+
+  .text-neon-dim {
+    color: #00cc6a;
+    text-shadow: 0 0 4px rgba(0, 255, 136, 0.3);
+  }
+
+  /* ─── Gradient text ─── */
+  .text-gradient {
+    background: linear-gradient(135deg, #00ff88, #00ffd5, #39ff14);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── Cyber grid background ─── */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* ─── Neon border card ─── */
+  .card-neon {
+    background: rgba(0, 255, 136, 0.02);
+    border: 1px solid rgba(0, 255, 136, 0.12);
+    backdrop-filter: blur(12px);
+  }
+  .card-neon:hover {
+    border-color: rgba(0, 255, 136, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.08), inset 0 0 20px rgba(0, 255, 136, 0.02);
+  }
+
+  /* ─── Holo glow on 3D container ─── */
+  .holo-glow {
+    filter: drop-shadow(0 0 12px rgba(0, 255, 136, 0.3));
+  }
+
+  /* ─── Glitch effect ─── */
+  .glitch {
+    animation: glitch 0.3s ease-in-out infinite alternate;
+  }
+}

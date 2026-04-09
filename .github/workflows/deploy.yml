@@ -35,34 +35,24 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Setup SSH known hosts
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-
-      - name: Setup SSH key
-        run: |
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-      - name: Create deployment package
-        run: |
-          mkdir -p deploy_package
-          cp -r .next deploy_package/
-          cp package.json deploy_package/
-          cp package-lock.json deploy_package/
-          cp next.config.mjs deploy_package/
-          cp -r public deploy_package/
-          cp -r src deploy_package/
-          cp tsconfig.json deploy_package/
-          cp tailwind.config.ts deploy_package/
-          cp postcss.config.mjs deploy_package/
-
       - name: Upload files to server
         run: |
-          scp -i ~/.ssh/deploy_key -r deploy_package/* \
-            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/var/www/portfolio/
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.github' \
+            --exclude='coverage' \
+            --exclude='__tests__' \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./ ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/var/www/portfolio/
 
       - name: Install production dependencies and restart service
         run: |
@@ -81,6 +71,4 @@ jobs:
 
       - name: Cleanup
         if: always()
-        run: |
-          rm -rf deploy_package
-          rm -f ~/.ssh/deploy_key
+        run: rm -f ~/.ssh/deploy_key

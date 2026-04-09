@@ -81,17 +81,14 @@ function HologramFigure() {
     return { holoScene: clone, meshes: meshList };
   }, [scene]);
 
-  // Auto-fit model to ~2.0 units.
-  // Keeping it smaller than the frustum means no part clips the canvas edge
-  // when the model rotates (at 45° the diagonal is scale * √2 ≈ 2.83 units,
-  // well within the camera frustum at z=5 with fov=50).
+  // Auto-fit model to ~2.8 units
   useEffect(() => {
     if (!group.current) return;
     const box = new THREE.Box3().setFromObject(holoScene);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = maxDim > 0 ? 2.0 / maxDim : 1;
+    const scale = maxDim > 0 ? 2.8 / maxDim : 1;
     group.current.scale.setScalar(scale);
     group.current.position.set(
       -center.x * scale,
@@ -135,7 +132,7 @@ export default function Model3D() {
     <div className="w-full h-full">
       <Canvas
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
-        camera={{ position: [0, 0, 5], fov: 50 }}
+        camera={{ position: [0, 0, 4], fov: 50 }}
         style={{ background: "transparent" }}
         // Cap at 1.5× — rendering at dpr=2 doubles pixel count and tanks GPU on mid-range phones
         dpr={[1, 1.5]}

@@ -26,6 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Correct viewport for all mobile browsers */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

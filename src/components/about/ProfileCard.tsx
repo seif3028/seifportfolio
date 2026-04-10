@@ -37,7 +37,7 @@ export default function ProfileCard() {
       <motion.div className="relative shrink-0" variants={itemVariants}>
         <div className="w-40 h-40 md:w-48 md:h-48 rounded-lg border-2 border-neon-green/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] bg-neon-green/5">
           <Image
-            src="/profile.png"
+            src="/profile.jpeg"
             alt="Seif Baichoo"
             width={192}
             height={192}

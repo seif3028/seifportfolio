@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     "Linux",
   ],
   authors: [{ name: "Muhammad Seif Al Din Baichoo" }],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -28,6 +34,9 @@ export default function RootLayout({
       <head>
         {/* Correct viewport for all mobile browsers */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Favicon */}
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

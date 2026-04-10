@@ -1,4 +1,5 @@
 "use client";
+import React, { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useTypingEffect } from "@/hooks/useTypingEffect";
@@ -13,8 +14,81 @@ const roles = [
   "iot_enthusiast",
 ];
 
+// ── Error boundary ────────────────────────────────────────────────────────────
+// React requires a class component for error boundaries. This catches any
+// crash inside the 3D canvas (WebGL init failure, GL context loss, etc.) and
+// swaps in the CSS fallback so the page never shows a white broken-image box.
+class Model3DErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
+
+// ── CSS fallback shown when WebGL is unavailable or crashes ───────────────────
+// Pure SVG/CSS — no WebGL needed. Matches the green hologram aesthetic so it
+// looks intentional rather than broken.
+function HologramFallback() {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <div
+        className="relative animate-pulse"
+        style={{ filter: "drop-shadow(0 0 16px rgba(0,255,136,0.5))" }}
+      >
+        <svg
+          viewBox="0 0 80 120"
+          className="w-24 h-36 opacity-70"
+          fill="none"
+          stroke="#00ff88"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* head */}
+          <circle cx="40" cy="16" r="10" />
+          {/* body */}
+          <path d="M25 38 Q40 28 55 38 L58 80 H22 Z" />
+          {/* arms */}
+          <path d="M25 42 L10 68 M55 42 L70 68" />
+          {/* legs */}
+          <path d="M30 80 L26 115 M50 80 L54 115" />
+        </svg>
+        <div className="absolute inset-0 bg-neon-green/5 blur-2xl rounded-full" />
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function HeroSection() {
   const { displayed } = useTypingEffect("Muhammad Seif Al Din Baichoo", 55, 400);
+
+  // Track whether the model container is in the viewport.
+  // When it scrolls out, we set frameloop="demand" on the Canvas (zero GPU use).
+  // Default true so the model renders immediately on page load.
+  const modelWrapperRef = useRef<HTMLDivElement>(null);
+  const [modelInView, setModelInView] = useState(true);
+
+  useEffect(() => {
+    const el = modelWrapperRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setModelInView(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     /**
@@ -131,12 +205,7 @@ export default function HeroSection() {
         HOW TO ADJUST THE MODEL SIZE:
         Change the clamp() values below — they control the layout space.
           clamp(MIN, PREFERRED, MAX)
-          e.g. clamp(260px, 38vw, 520px) = min 260px, scales with viewport, max 520px
-
-        The canvas itself is rendered 35% larger than this box on every side
-        (via inset: -35%) so the model never clips when rotating.
-        The transparent background means only the glowing model is visible —
-        no box, no frame, no cuts.
+          e.g. clamp(200px, 30vw, 380px) = min 200px, scales with viewport, max 380px
       */}
       <motion.div
         className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-3 md:mb-0"
@@ -149,16 +218,22 @@ export default function HeroSection() {
         transition={{ duration: 0.8, delay: 0.1 }}
       >
         {/*
-          Canvas overflows the layout anchor on the sides and bottom only —
-          NOT upward (top: 0) so it never bleeds into the navbar on mobile.
-          Left/right/bottom get 40% extra space for full rotation without clips.
+          ErrorBoundary catches any WebGL crash and shows HologramFallback
+          instead of the white broken-image box.
+
+          Canvas overflows left/right (-40%) so rotating parts never clip,
+          but does NOT overflow upward (top: 0) — prevents bleeding into navbar.
         */}
-        <div
-          className="absolute pointer-events-auto"
-          style={{ top: 0, bottom: 0, left: "-40%", right: "-40%" }}
-        >
-          <Model3D />
-        </div>
+        <Model3DErrorBoundary fallback={<HologramFallback />}>
+          <div
+            ref={modelWrapperRef}
+            className="absolute pointer-events-auto"
+            style={{ top: 0, bottom: 0, left: "-40%", right: "-40%" }}
+          >
+            {/* paused=true when scrolled off-screen → frameloop="demand" → zero GPU */}
+            <Model3D paused={!modelInView} />
+          </div>
+        </Model3DErrorBoundary>
       </motion.div>
 
     </div>

@@ -44,6 +44,13 @@ body {
   color: #fff;
 }
 
+/* ─── Image protection — disable drag and iOS long-press "Save Image" globally ─── */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none; /* suppresses iOS long-press save sheet on all images */
+}
+
 /* ─── Scanline overlay for the whole page ─── */
 body::after {
   content: "";

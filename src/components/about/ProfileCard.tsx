@@ -35,13 +35,23 @@ export default function ProfileCard() {
     >
       {/* Profile image */}
       <motion.div className="relative shrink-0" variants={itemVariants}>
-        <div className="w-36 h-48 md:w-44 md:h-56 rounded-lg border-2 border-neon-green/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] bg-neon-green/5">
+        <div className="w-36 h-48 md:w-44 md:h-56 rounded-lg border-2 border-neon-green/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] bg-neon-green/5 select-none">
           <Image
             src="/profile.jpeg"
             alt="Seif Baichoo"
             width={176}
             height={224}
-            className="object-cover object-top w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+            className="object-cover object-top w-full h-full grayscale hover:grayscale-0 transition-all duration-500 pointer-events-none"
+          />
+          {/* Invisible capture layer — sits above the image, blocks right-click / drag / long-press save */}
+          <div
+            className="absolute inset-0 z-10"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+            style={{ WebkitTouchCallout: "none", userSelect: "none" }}
           />
         </div>
         {/* Online indicator */}

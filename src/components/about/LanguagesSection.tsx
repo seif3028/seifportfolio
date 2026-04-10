@@ -4,7 +4,7 @@ import type { Variants } from "framer-motion";
 
 const languages = [
   { name: "English", level: "Fluent", percent: 95 },
-  { name: "French", level: "Fluent", percent: 90 },
+  { name: "French", level: "Intermediate", percent: 55 },
   { name: "Mauritian Creole", level: "Native", percent: 100 },
 ];
 

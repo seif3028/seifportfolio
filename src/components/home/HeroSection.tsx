@@ -115,7 +115,7 @@ export default function HeroSection() {
         <motion.h1
           className="font-bold text-neon-green mb-3 leading-tight font-mono"
           style={{
-            fontSize: "clamp(1.5rem, 4vw, 3.5rem)",
+            fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
             textShadow: "0 0 30px rgba(0,255,136,0.3)",
           }}
           initial={{ opacity: 0 }}

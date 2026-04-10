@@ -34,7 +34,7 @@ export default function ProfileCard() {
     >
       {/* Profile image */}
       <motion.div className="relative shrink-0" variants={itemVariants}>
-        <div className="w-36 h-48 md:w-44 md:h-56 rounded-lg border-2 border-neon-green/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] bg-neon-green/5 select-none">
+        <div className="group w-36 h-48 md:w-44 md:h-56 rounded-lg border-2 border-neon-green/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] bg-neon-green/5 select-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/api/profile"
@@ -42,7 +42,7 @@ export default function ProfileCard() {
             draggable={false}
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
-            className="object-cover object-top w-full h-full grayscale hover:grayscale-0 transition-all duration-500 pointer-events-none"
+            className="object-cover object-top w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500 pointer-events-none"
           />
           {/* Invisible capture layer — sits above the image, blocks right-click / drag / long-press save */}
           <div

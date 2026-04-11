@@ -10,7 +10,7 @@ import { workExperience } from "@/components/experience/timelineData";
   ─────────────────────────────────────────
   background : linear-gradient(160deg, #0f2d1a, #091a0f)
   heading    : #00ff88  (neon-green — pops on dark green)
-  body text  : #c2e8cc  (light green-white — readable on dark green)
+  body text  : #c2e8cc  (light green-white)
   dim text   : #7abf8a  (medium-light green)
   border     : rgba(0,255,136,0.20)
 */
@@ -20,8 +20,9 @@ const TEXT_BODY = "#c2e8cc";
 const TEXT_DIM  = "#7abf8a";
 const BORDER    = "rgba(0,255,136,0.20)";
 
-// stagger between cards — each card peeks this much above the previous one
-const OFFSET = "1.6em";
+// navbar height + stack offset per card (creates the peek without dark gaps)
+const NAVBAR_H    = 64;   // px
+const STACK_STEP  = 20;   // px — how much of the previous card peeks above the next
 
 // ── Terminal prompt bar ───────────────────────────────────────────────────────
 function TerminalPrompt({ label }: { label: string }) {
@@ -222,18 +223,23 @@ export default function ParallaxScene() {
 
       {/*
         ── Stacked cards (intro / about / experience) ──────────────────────────
-        Each <li> is position:sticky so its card sticks while the next scrolls in.
-        paddingTop on each li offsets cards by OFFSET steps → staircase effect.
-        Height is AUTO (content-driven) → no overflow, no scrollbar.
-        No gap between list items → cards are visually seamless.
+
+        Stacking rules:
+        • Each <li> is sticky; `top` increases by STACK_STEP per card so
+          each card peeks STACK_STEP px below the one above it.
+        • NO paddingTop on <li> — that caused the dark bands.
+          The stagger lives entirely in the `top` value.
+        • Cards are width-constrained (max-w-6xl) matching the navbar,
+          so they don't bleed edge-to-edge.
+        • Height is auto (content-driven) — no overflow/scrollbar.
+        • paddingBottom on <ul> gives scroll travel after the last card.
       */}
       <ul
         style={{
           listStyle: "none",
           padding: 0,
           margin: 0,
-          // Extra bottom space = total stagger so last card can fully unstick
-          paddingBottom: `calc(${CARDS - 1} * ${OFFSET})`,
+          paddingBottom: "35vh",
         }}
       >
         {cardSections.map((SectionComponent, i) => (
@@ -241,33 +247,34 @@ export default function ParallaxScene() {
             key={i}
             style={{
               position: "sticky",
-              top: 64,
-              // Each successive card peeks OFFSET above the previous
-              paddingTop: `calc(${i} * ${OFFSET})`,
-              // Higher z-index so each card covers the one before it
+              // Each successive card's sticky point moves down by STACK_STEP,
+              // so it always peeks below the previous one — no dark gaps.
+              top: NAVBAR_H + i * STACK_STEP,
               zIndex: 10 + i,
             }}
           >
-            <div
-              className="w-full"
-              style={{
-                background: CARD_BG,
-                borderRadius: "20px 20px 0 0",
-                boxShadow: "0 -2px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(0,255,136,0.1)",
-                border: `1px solid ${BORDER}`,
-                borderBottom: "none",
-              }}
-            >
-              {/* Responsive inner padding — no max-w cap so content fills the card */}
-              <div className="px-4 sm:px-8 lg:px-14 py-7 sm:py-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.45 }}
-                >
-                  <SectionComponent />
-                </motion.div>
+            {/* Width container matching the hero / navbar layout */}
+            <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Card surface */}
+              <div
+                style={{
+                  background: CARD_BG,
+                  borderRadius: "16px",
+                  border: `1px solid ${BORDER}`,
+                  boxShadow:
+                    "0 8px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(0,255,136,0.08)",
+                }}
+              >
+                <div className="px-5 sm:px-8 lg:px-10 py-6 sm:py-8">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.45 }}
+                  >
+                    <SectionComponent />
+                  </motion.div>
+                </div>
               </div>
             </div>
           </li>
@@ -275,7 +282,7 @@ export default function ParallaxScene() {
       </ul>
 
       {/* ── Projects — normal flow below the card stack ── */}
-      <div className="w-full px-4 sm:px-8 lg:px-14 py-16">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}

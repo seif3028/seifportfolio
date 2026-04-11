@@ -194,75 +194,11 @@ function ExperienceBrief() {
   );
 }
 
-// ── Card 4 ── Projects Preview ───────────────────────────────────────────────
-function ProjectsPreview() {
-  return (
-    <>
-      <TerminalPrompt label="$ ls ./projects/" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
-        {projects.map((project, i) => (
-          <motion.div
-            key={project.id}
-            className="group rounded-lg p-4 transition-all duration-300 hover:bg-neon-green/[0.06] hover:shadow-[0_0_16px_rgba(0,255,136,0.1)]"
-            style={{ border: `1px solid ${BORDER}` }}
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: i * 0.07 }}
-          >
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <span className="text-lg leading-none">{project.icon}</span>
-              <span
-                className="text-[10px] px-2 py-0.5 rounded font-mono shrink-0 group-hover:text-neon-green transition-colors duration-200"
-                style={{ border: `1px solid ${BORDER}`, color: TEXT_DIM }}
-              >
-                {project.category}
-              </span>
-            </div>
-            <h4 className="text-neon-green text-sm font-semibold font-mono mb-1.5 leading-snug">
-              {project.title}
-            </h4>
-            <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: TEXT_BODY }}>
-              {project.summary}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-      <GlowButton href="/projects" variant="ghost">ls -la ./projects →</GlowButton>
-    </>
-  );
-}
-
-// ── Card 5 ── CTA Footer ─────────────────────────────────────────────────────
-function CTASection() {
-  return (
-    <div className="text-center">
-      <div className="text-4xl mb-6">🚀</div>
-      <h2 className="text-2xl md:text-3xl font-bold text-neon-green mb-4 font-mono">
-        ./build_something_great
-      </h2>
-      <p className="text-sm mb-8 max-w-md mx-auto" style={{ color: TEXT_BODY }}>
-        Explore my projects, check out my experience, or download my CV to
-        learn more about what I can bring to your team.
-      </p>
-      <div className="flex flex-wrap justify-center gap-3">
-        <GlowButton href="/projects" variant="primary">./view_projects</GlowButton>
-        <GlowButton href="/experience" variant="outline">cat experience.log</GlowButton>
-        <GlowButton href="/Seif-Baichoo_cv.pdf" download variant="outline">
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          download_cv
-        </GlowButton>
-      </div>
-    </div>
-  );
-}
-
 // ── Root ──────────────────────────────────────────────────────────────────────
 
-const CARDS = 5;
-const cardSections = [IntroBlurb, AboutBrief, ExperienceBrief, ProjectsPreview, CTASection];
+const CARDS = 3;
+const CARD_H = "clamp(480px, 70vh, 650px)"; // caps height on large screens
+const cardSections = [IntroBlurb, AboutBrief, ExperienceBrief];
 
 export default function ParallaxScene() {
   return (
@@ -284,7 +220,7 @@ export default function ParallaxScene() {
         </div>
       </div>
 
-      {/* ── Stacked cards ── */}
+      {/* ── Stacked cards (intro / about / experience) ── */}
       <ul
         style={{
           listStyle: "none",
@@ -292,7 +228,7 @@ export default function ParallaxScene() {
           margin: 0,
           display: "grid",
           gridTemplateColumns: "1fr",
-          gridTemplateRows: `repeat(${CARDS}, 87vh)`,
+          gridTemplateRows: `repeat(${CARDS}, ${CARD_H})`,
           gap: "4vw",
           paddingBottom: `calc(${CARDS} * 1.5em)`,
           marginBottom: "4vw",
@@ -310,7 +246,7 @@ export default function ParallaxScene() {
             <div
               className="w-full overflow-y-auto"
               style={{
-                height: "87vh",
+                height: CARD_H,
                 borderRadius: "24px",
                 background: CARD_BG,
                 boxShadow: "0 0 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(0,255,136,0.1)",
@@ -331,6 +267,77 @@ export default function ParallaxScene() {
           </li>
         ))}
       </ul>
+
+      {/* ── Projects — normal flow below the card stack ── */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <TerminalPrompt label="$ ls ./projects/" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {projects.map((project, i) => (
+              <motion.div
+                key={project.id}
+                className="group rounded-xl p-5 transition-all duration-300 hover:bg-neon-green/[0.04] hover:shadow-[0_0_20px_rgba(0,255,136,0.08)]"
+                style={{ border: `1px solid ${BORDER}` }}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.07 }}
+              >
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-xl leading-none">{project.icon}</span>
+                  <span
+                    className="text-[10px] px-2 py-0.5 rounded font-mono shrink-0 group-hover:text-neon-green transition-colors duration-200"
+                    style={{ border: `1px solid ${BORDER}`, color: TEXT_DIM }}
+                  >
+                    {project.category}
+                  </span>
+                </div>
+                <h4 className="text-neon-green text-sm font-semibold font-mono mb-2 leading-snug">
+                  {project.title}
+                </h4>
+                <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: TEXT_BODY }}>
+                  {project.summary}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+          <GlowButton href="/projects" variant="ghost">ls -la ./projects →</GlowButton>
+        </motion.div>
+      </div>
+
+      {/* ── CTA footer — normal flow ── */}
+      <div className="w-full px-4 sm:px-6 py-24 text-center border-t" style={{ borderColor: BORDER }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-4xl mb-6">🚀</div>
+          <h2 className="text-2xl md:text-3xl font-bold text-neon-green mb-4 font-mono">
+            ./build_something_great
+          </h2>
+          <p className="text-sm mb-8 max-w-md mx-auto" style={{ color: TEXT_BODY }}>
+            Explore my projects, check out my experience, or download my CV to
+            learn more about what I can bring to your team.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <GlowButton href="/projects" variant="primary">./view_projects</GlowButton>
+            <GlowButton href="/experience" variant="outline">cat experience.log</GlowButton>
+            <GlowButton href="/Seif-Baichoo_cv.pdf" download variant="outline">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              download_cv
+            </GlowButton>
+          </div>
+        </motion.div>
+      </div>
 
     </div>
   );

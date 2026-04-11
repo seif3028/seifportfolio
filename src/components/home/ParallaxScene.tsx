@@ -259,15 +259,14 @@ export default function ParallaxScene() {
 
       {/* ── Hero — full viewport ── */}
       <div
-        className="relative w-full flex items-center justify-center overflow-hidden"
+        className="relative w-full flex items-start md:items-center justify-center overflow-hidden"
         style={{ height: "100dvh", minHeight: "-webkit-fill-available" }}
       >
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-neon-green/[0.03] rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-neon-green/[0.02] rounded-full blur-[100px] pointer-events-none" />
         <div
-          className="relative z-10 w-full max-w-6xl px-4 sm:px-6 lg:px-8"
-          style={{ paddingTop: "56px" }}
+          className="relative z-10 w-full max-w-6xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-[64px]"
         >
           <HeroSection />
         </div>

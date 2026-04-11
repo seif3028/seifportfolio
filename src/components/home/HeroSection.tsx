@@ -107,7 +107,7 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <span className="text-neon-green/40">//</span>
+          <span className="text-neon-green/40">{"//"}</span>
           <span className="text-neon-green/60">00</span>
           <span className="w-6 h-px bg-neon-green/20" />
           <span>hello, world</span>

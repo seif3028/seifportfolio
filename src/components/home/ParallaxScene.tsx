@@ -43,7 +43,7 @@ function Section({
 function SectionLabel({ num, title }: { num: string; title: string }) {
   return (
     <p className="text-xs font-mono text-terminal-dim tracking-widest mb-4 flex items-center gap-2">
-      <span className="text-neon-green/40">//</span>
+      <span className="text-neon-green/40">{"//"}</span>
       <span className="text-neon-green/60">{num}</span>
       <span className="w-6 h-px bg-neon-green/20" />
       <span>{title}</span>
@@ -133,7 +133,7 @@ function AboutBrief() {
 
       {/* Code-block bio */}
       <div className="bg-hacker-card border border-hacker-border rounded-lg p-5 font-mono text-sm mb-6">
-        <p className="text-neon-green/30 text-xs mb-3">// profile.json</p>
+        <p className="text-neon-green/30 text-xs mb-3">{"//"} profile.json</p>
         <p className="text-terminal-dim leading-relaxed">
           <span className="text-neon-green/50">&#123;</span>
           <br />

@@ -100,22 +100,9 @@ export default function HeroSection() {
       {/* ── Text column — z-10 keeps text above the 3D model canvas ── */}
       <div className="relative z-10 flex flex-col items-center text-center md:items-start md:text-left flex-1 min-w-0">
 
-        {/* Section label */}
-        <motion.p
-          className="text-xs font-mono text-terminal-dim tracking-widest mb-4 flex items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <span className="text-neon-green/40">{"//"}</span>
-          <span className="text-neon-green/60">00</span>
-          <span className="w-6 h-px bg-neon-green/20" />
-          <span>hello, world</span>
-        </motion.p>
-
         {/* Terminal status line */}
         <motion.div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm border border-neon-green/20 bg-neon-green/5 text-neon-green text-xs font-mono mb-4"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded border border-neon-green/20 bg-neon-green/5 text-neon-green text-xs font-mono mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}

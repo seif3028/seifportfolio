@@ -95,14 +95,14 @@ export default function HeroSection() {
      * Mobile  : single column — model on top, text below, everything centred
      * Desktop : two columns — text left, 3D model right (large)
      */
-    <div className="relative flex flex-col md:flex-row md:items-center gap-0 md:gap-16 lg:gap-24 w-full">
+    <div className="relative flex flex-col md:flex-row md:items-center gap-0 md:gap-12 lg:gap-20 w-full">
 
       {/* ── Text column — z-10 keeps text above the 3D model canvas ── */}
       <div className="relative z-10 flex flex-col items-center text-center md:items-start md:text-left flex-1 min-w-0">
 
         {/* Terminal status line */}
         <motion.div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded border border-neon-green/20 bg-neon-green/5 text-neon-green text-xs font-mono mb-4"
+          className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded border border-neon-green/20 bg-neon-green/5 text-neon-green text-[11px] sm:text-xs font-mono mb-3 sm:mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -113,9 +113,9 @@ export default function HeroSection() {
 
         {/* Name with typing effect */}
         <motion.h1
-          className="font-bold text-neon-green mb-3 leading-tight font-mono"
+          className="font-bold text-neon-green mb-2 sm:mb-3 leading-tight font-mono"
           style={{
-            fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+            fontSize: "clamp(1.3rem, 3vw, 2.2rem)",
             textShadow: "0 0 30px rgba(0,255,136,0.3)",
           }}
           initial={{ opacity: 0 }}
@@ -128,7 +128,7 @@ export default function HeroSection() {
 
         {/* Role badges */}
         <motion.div
-          className="flex flex-wrap justify-center md:justify-start gap-1.5 mb-4"
+          className="flex flex-wrap justify-center md:justify-start gap-1 sm:gap-1.5 mb-3 sm:mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -145,8 +145,8 @@ export default function HeroSection() {
 
         {/* Description */}
         <motion.p
-          className="text-terminal-dim max-w-xl mx-auto md:mx-0 mb-6 leading-relaxed"
-          style={{ fontSize: "clamp(0.75rem, 1.4vw, 0.95rem)" }}
+          className="text-terminal-dim max-w-xl mx-auto md:mx-0 mb-4 sm:mb-6 leading-relaxed"
+          style={{ fontSize: "clamp(0.7rem, 1.4vw, 0.95rem)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.5 }}
@@ -157,7 +157,7 @@ export default function HeroSection() {
 
         {/* CTAs */}
         <motion.div
-          className="flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3 mb-6"
+          className="flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.8 }}
@@ -208,10 +208,10 @@ export default function HeroSection() {
           e.g. clamp(200px, 30vw, 380px) = min 200px, scales with viewport, max 380px
       */}
       <motion.div
-        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-3 md:mb-0"
+        className="order-first md:order-last flex-shrink-0 relative z-0 mx-auto md:mx-0 mb-1 md:mb-0"
         style={{
-          width:  "clamp(200px, 30vw, 380px)",
-          height: "clamp(200px, 33vw, 420px)",
+          width:  "clamp(160px, 40vw, 380px)",
+          height: "clamp(170px, 42vw, 420px)",
         }}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

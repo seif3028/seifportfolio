@@ -26,7 +26,7 @@ const STACK_STEP  = 24;   // px — how much of the previous card peeks above th
 // ── Scroll indicator (adapted from uiverse — neon-green themed) ──────────────
 function ScrollIndicator() {
   return (
-    <div className="flex flex-col items-center gap-2 py-8">
+    <div className="flex flex-col items-center gap-1.5 py-4 sm:py-6">
       <button
         onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: "smooth" })}
         className="scroll-pill"
@@ -34,7 +34,7 @@ function ScrollIndicator() {
       >
         <div className="scroll-dot" />
       </button>
-      <span className="text-[10px] uppercase tracking-[3px] font-mono" style={{ color: TEXT_DIM }}>
+      <span className="text-[9px] sm:text-[10px] uppercase tracking-[3px] font-mono" style={{ color: TEXT_DIM }}>
         scroll
       </span>
 
@@ -267,15 +267,16 @@ export default function ParallaxScene() {
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-neon-green/[0.02] rounded-full blur-[100px] pointer-events-none" />
         <div
           className="relative z-10 w-full max-w-6xl px-4 sm:px-6 lg:px-8"
-          style={{ paddingTop: "64px" }}
+          style={{ paddingTop: "56px" }}
         >
           <HeroSection />
         </div>
 
-        {/* Scroll indicator — absolute-positioned at bottom of hero */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-10">
-          <ScrollIndicator />
-        </div>
+      </div>
+
+      {/* Scroll indicator — in normal flow between hero and cards, never overlaps hero content */}
+      <div className="flex justify-center -mt-16 sm:-mt-20 relative z-10">
+        <ScrollIndicator />
       </div>
 
       {/*

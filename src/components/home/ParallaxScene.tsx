@@ -9,7 +9,7 @@ import { workExperience } from "@/components/experience/timelineData";
 // Shared wrapper — full opaque card centred in its parallax page
 function Section({ children }: { children: React.ReactNode }) {
   return (
-    <div className="h-screen flex items-center justify-center px-4 py-8">
+    <div className="flex items-center justify-center px-4 py-10" style={{ minHeight: "70vh" }}>
       <motion.div
         className="w-full max-w-4xl bg-hacker-bg border border-hacker-border rounded-xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] ring-1 ring-neon-green/5"
         initial={{ opacity: 0, y: 40 }}
@@ -293,7 +293,7 @@ function CTASection() {
 export default function ParallaxScene() {
   return (
     <div className="relative w-full" style={{ height: "100dvh", minHeight: "-webkit-fill-available" }}>
-      <Parallax pages={6} style={{ background: "transparent" }}>
+      <Parallax pages={4.5} style={{ background: "transparent" }}>
 
         {/* Background grid */}
         <ParallaxLayer offset={0} speed={0.1} style={{ pointerEvents: "none" }}>
@@ -333,22 +333,22 @@ export default function ParallaxScene() {
         </ParallaxLayer>
 
         {/* Page 2 — About brief */}
-        <ParallaxLayer offset={2} speed={0.3} style={{ zIndex: 10 }}>
+        <ParallaxLayer offset={1.7} speed={0.3} style={{ zIndex: 10 }}>
           <AboutBrief />
         </ParallaxLayer>
 
         {/* Page 3 — Experience brief */}
-        <ParallaxLayer offset={3} speed={0.3} style={{ zIndex: 10 }}>
+        <ParallaxLayer offset={2.4} speed={0.3} style={{ zIndex: 10 }}>
           <ExperienceBrief />
         </ParallaxLayer>
 
         {/* Page 4 — Projects preview */}
-        <ParallaxLayer offset={4} speed={0.3} style={{ zIndex: 10 }}>
+        <ParallaxLayer offset={3.1} speed={0.3} style={{ zIndex: 10 }}>
           <ProjectsPreview />
         </ParallaxLayer>
 
         {/* Page 5 — CTA footer */}
-        <ParallaxLayer offset={5} speed={0.4} style={{ zIndex: 10 }}>
+        <ParallaxLayer offset={3.8} speed={0.4} style={{ zIndex: 10 }}>
           <CTASection />
         </ParallaxLayer>
 
